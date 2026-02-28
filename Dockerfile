@@ -22,5 +22,4 @@ COPY --from=build /app/target/*.jar app.jar
 
 EXPOSE 8081
 
-# Comando para rodar a aplicação
 ENTRYPOINT ["java", "-jar", "app.jar"]

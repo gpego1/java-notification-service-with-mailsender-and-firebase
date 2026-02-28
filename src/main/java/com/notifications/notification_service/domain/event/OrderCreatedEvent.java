@@ -19,11 +19,15 @@ public class OrderCreatedEvent {
     private BigDecimal totalAmount;
     private LocalDateTime occurredAt;
 
+    public OrderCreatedEvent() {}
+
     @Getter
     @Setter
     public static class OrderItemData {
         private Long productId;
         private Integer quantity;
         private BigDecimal price;
+
+        public OrderItemData() {}
     }
 }
