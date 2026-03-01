@@ -1,13 +1,14 @@
 package com.notifications.notification_service.domain.event;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class OrderCreatedEvent {
 
     private String eventId;
@@ -21,8 +22,8 @@ public class OrderCreatedEvent {
 
     public OrderCreatedEvent() {}
 
-    @Getter
-    @Setter
+    @Data
+    @AllArgsConstructor
     public static class OrderItemData {
         private Long productId;
         private Integer quantity;

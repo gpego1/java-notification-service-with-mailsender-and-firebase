@@ -13,20 +13,34 @@ spring:
           starttls:
             enable: true
   kafka:
-    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:kafka:29092}
     consumer:
-      group-id: notification-service-test
-      client-id: consumer
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      fetch-max-wait-ms: 500
-      fetch-min-bytes: 16384
-      enable-auto-commit: false
-      heartbeat-interval-ms: 3000
-      session-timeout-ms: 45000
-      auto-offset-reset: ${SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET:earliest}
-      properties:
-        bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS}
-        spring.json.trusted.packages: "*"
-        spring.json.type.mapping: "order.created:com.notifications.notification_service.domain.event.OrderCreatedEvent"
-        spring.json.use.type.headers: false
+        group-id: ${SPRING_KAFKA_CONSUMER_GROUP_ID:notification-group}
+        client-id: consumer-${random.uuid}
+        key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+        value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+        fetch-max-wait-ms: 500
+        fetch-min-bytes: 16384
+        enable-auto-commit: false
+        heartbeat-interval-ms: 3000
+        session-timeout-ms: 45000
+        auto-offset-reset: ${SPRING_KAFKA_CONSUMER_AUTO_OFFSET_RESET:earliest}
+        max-poll-records: 50
+        properties:
+          spring.json.trusted.packages: "*"
+          spring.json.type.mapping: "order.created:com.notifications.notification_service.domain.event.OrderCreatedEvent"
+          spring.json.use.type.headers: false
+          request.timeout.ms: 30000
+          metadata.max.age.ms: 300000
+    listener:
+        type: batch
+        concurrency: 3
+        ack-mode: manual_immediate
+        poll-timeout: 5000
+
+logging:
+  level:
+    com.notifications: DEBUG
+    org.springframework.kafka: INFO
+    org.apache.kafka: INFO
+    org.apache.kafka.clients.consumer: DEBUG
