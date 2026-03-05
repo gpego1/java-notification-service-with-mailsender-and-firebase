@@ -33,9 +33,9 @@ spring:
           request.timeout.ms: 30000
           metadata.max.age.ms: 300000
     listener:
-        type: batch
+        type: single
         concurrency: 3
-        ack-mode: manual_immediate
+        ack-mode: manual
         poll-timeout: 5000
 
 logging:
