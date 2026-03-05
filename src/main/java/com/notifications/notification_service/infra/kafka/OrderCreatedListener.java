@@ -1,5 +1,4 @@
 package com.notifications.notification_service.infra.kafka;
-
 import com.notifications.notification_service.domain.event.OrderCreatedEvent;
 import com.notifications.notification_service.infra.services.EmailService;
 import lombok.RequiredArgsConstructor;
